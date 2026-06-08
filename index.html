@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
+        /* COLORS and font styles taken from google */
       --bg:      #111111;
       --surface: #1a1a1a;
       --border:  #2a2a2a;
@@ -89,7 +90,7 @@
       margin: 0 auto;
     }
 
-    /* ── HERO ── */
+    /* ── HOME/HERO page ── */
     .tag {
       font-family: var(--mono);
       font-size: 0.72rem;
@@ -143,7 +144,7 @@
       margin-bottom: 36px;
     }
 
-    /* ── SERVICES ── */
+    /* ── SERVICES and OPTIONS */
     .service-row {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -292,7 +293,7 @@
       font-size: 0.78rem;
       color: var(--muted);
       text-align: right;
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     /* ── RESPONSIVE ── */
@@ -321,7 +322,7 @@
     <a href="#booking"><button class="nav-btn">Book your appointment today</button></a>
   </nav>
 
-  <!-- HERO -->
+  <!-- HERO or main home page-->
   <section id="home">
     <p class="tag">Bike Repair · Ottawa, ON</p>
     <h1>We fix bikes<br>properly and timely.</h1>
@@ -449,7 +450,7 @@
 
   <hr class="divider"/>
 
-  <!-- CONTACT -->
+  <!-- CONTACT  -->
   <section id="contact">
     <h2>Contact &amp; Location</h2>
 
@@ -490,16 +491,16 @@
 
   <hr class="divider"/>
 
-  <!-- DESIGNER CREDIT -->
+  <!-- about -->
   <section id="about">
     <p class="designed-by">Designed by <strong>Seby Asan</strong> · SEG3125 · University of Ottawa</p>
   </section>
 
   <script>
-    // Set min date to today
+    // Set min date to today incase they try to select a past date for booking 
     const dateInput = document.getElementById('date');
     if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
-
+// Booking form smitting Without backend, just a confirmation message
     function submitBooking() {
       const name    = document.getElementById('name').value.trim();
       const email   = document.getElementById('email').value.trim();
@@ -507,7 +508,7 @@
       const date    = document.getElementById('date').value;
       const time    = document.getElementById('time').value;
       const msg     = document.getElementById('confirmMsg');
-
+            // Basic validation (just to check if required fields are filled)
       if (!name || !email || !service || !date || !time) {
         msg.style.display = 'block';
         msg.className = 'confirm-msg error';
