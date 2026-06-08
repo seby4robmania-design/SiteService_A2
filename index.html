@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2 Wheels and a Wrench — Bike Repair</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:      #111111;
+      --surface: #1a1a1a;
+      --border:  #2a2a2a;
+      --text:    #e8e8e8;
+      --muted:   #666666;
+      --accent:  #ffffff;
+      --red:     #cc2200;
+      --red-hover: #e02a00;
+      --font:    'DM Sans', sans-serif;
+      --mono:    'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-btn {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      padding: 8px 20px;
+      border: 1px solid var(--red);
+      color: var(--red);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-btn:hover { background: var(--red); color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 100px 40px;
+    }
+    section:first-of-type { padding-top: 160px; }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 300;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 460px;
+      margin-bottom: 40px;
+      line-height: 1.75;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      padding: 12px 28px;
+      cursor: pointer;
+      border: 1px solid var(--red);
+      background: transparent;
+      color: var(--red);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn:hover { background: var(--red); color: var(--accent); }
+    .btn-fill {
+      background: var(--red);
+      color: var(--accent);
+      border-color: var(--red);
+    }
+    .btn-fill:hover { background: var(--red-hover); border-color: var(--red-hover); color: var(--accent); }
+
+    /* ── SECTION HEADING ── */
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--accent);
+      margin-bottom: 36px;
+    }
+
+    /* ── SERVICES ── */
+    .service-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+    .service-row:first-of-type { border-top: 1px solid var(--border); }
+    .service-name { font-size: 0.95rem; color: var(--text); }
+    .service-desc { font-size: 0.82rem; color: var(--muted); margin-top: 3px; }
+    .service-price {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ── BOOKING ── */
+    .form-group { margin-bottom: 16px; }
+    label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    input, select, textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.9rem;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: #444; }
+    select option { background: var(--surface); }
+    textarea { resize: vertical; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .submit-btn {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      padding: 13px 28px;
+      background: var(--red);
+      color: var(--accent);
+      border: 1px solid var(--red);
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .submit-btn:hover { background: var(--red-hover); }
+    .confirm-msg {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .confirm-msg.error { border-color: #555; color: #999; }
+
+    /* ── CONTACT ── */
+    .contact-list { display: flex; flex-direction: column; }
+    .contact-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      gap: 24px;
+    }
+    .contact-item:first-child { border-top: 1px solid var(--border); }
+    .contact-key {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      min-width: 90px;
+    }
+    .contact-val { color: var(--text); }
+
+    /* hours */
+    .hours-grid {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+    }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .hours-row:first-child { border-top: 1px solid var(--border); }
+    .hours-row span:first-child { color: var(--muted); }
+    .hours-row span:last-child  { color: var(--text); }
+    .hours-row.closed span:last-child { color: var(--muted); }
+
+    /* ── ABOUT / DESIGNER ── */
+    .about-text {
+      font-size: 0.92rem;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.8;
+    }
+    .about-text + .about-text { margin-top: 16px; }
+    .designed-by {
+      margin-top: 32px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .designed-by strong { color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-logo {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--accent);
+    }
+    .footer-right {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.7;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 80px 20px; }
+      section:first-of-type { padding-top: 120px; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+      .footer-right { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="logo">2 Wheels and a Wrench</span>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#booking">Book</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#booking"><button class="nav-btn">Book your appointment today</button></a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <p class="tag">Bike Repair · Ottawa, ON</p>
+    <h1>We fix bikes<br>properly and timely.</h1>
+    <p class="hero-sub">
+      Professional repairs and fair prices. Walk-ins welcome for quick fixes —
+      no fuss, no phone calls needed.
+    </p>
+    <div class="hero-actions">
+      <a href="#booking"><button class="btn btn-fill">Book your appointment today</button></a>
+      <a href="#services"><button class="btn">See repair services</button></a>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <h2>Services &amp; Costs</h2>
+
+    <div class="service-row">
+      <div>
+        <div class="service-name">Brake Service</div>
+        <div class="service-desc">Pad replacement, cable tensioning, and hydraulic bleed for disc brakes.</div>
+      </div>
+      <div class="service-price">$50</div>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-name">Gear Shift Repair</div>
+        <div class="service-desc">Derailleur alignment, cable replacement, and full indexing. Fixes uncontrollable shifting.</div>
+      </div>
+      <div class="service-price">$60</div>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-name">Flat Tire Repair</div>
+        <div class="service-desc">Tube swap or patch repair. Walk-ins accepted. Any wheel size.</div>
+      </div>
+      <div class="service-price">$20</div>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-name">Basic Tune-Up</div>
+        <div class="service-desc">Brakes, gears, chain lube, tire pressure, and a full safety check.</div>
+      </div>
+      <div class="service-price">$45</div>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-name">Full Overhaul</div>
+        <div class="service-desc">Complete teardown to frame, all cables replaced, custom suspension installation (road, mountain, etc).</div>
+      </div>
+      <div class="service-price">$150</div>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-name">Custom Build</div>
+        <div class="service-desc">Frame-up builds with full parts consultation, sourcing, and professional assembly.</div>
+      </div>
+      <div class="service-price">from $200</div>
+    </div>
+
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- BOOKING -->
+  <section id="booking">
+    <h2>Book a Repair Appointment</h2>
+
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input id="name" type="text" placeholder="Your name"/>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="you@email.com"/>
+    </div>
+    <div class="form-group">
+      <label for="service">Service</label>
+      <select id="service">
+        <option value="">Select a service</option>
+        <option>Brake Service — $50</option>
+        <option>Gear Shift Repair — $60</option>
+        <option>Flat Tire Repair — $20</option>
+        <option>Basic Tune-Up — $45</option>
+        <option>Full Overhaul — $150</option>
+        <option>Custom Build — from $200</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input id="date" type="date"/>
+      </div>
+      <div class="form-group">
+        <label for="time">Time</label>
+        <select id="time">
+          <option value="">Select time</option>
+          <option>8:00 AM</option>
+          <option>9:00 AM</option>
+          <option>10:00 AM</option>
+          <option>11:00 AM</option>
+          <option>12:00 PM</option>
+          <option>1:00 PM</option>
+          <option>2:00 PM</option>
+          <option>3:00 PM</option>
+          <option>4:00 PM</option>
+          <option>5:00 PM</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="notes">Additional Notes (optional)</label>
+      <textarea id="notes" rows="3" placeholder="Describe the issue with your bike…"></textarea>
+    </div>
+    <button class="submit-btn" onclick="submitBooking()">Confirm appointment information →</button>
+    <div class="confirm-msg" id="confirmMsg"></div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Contact &amp; Location</h2>
+
+    <div class="contact-list">
+      <div class="contact-item">
+        <span class="contact-key">Address</span>
+        <span class="contact-val">343 Polo Crescent, Ottawa, ON</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-key">Phone</span>
+        <span class="contact-val">647 422 0592</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-key">Email</span>
+        <span class="contact-val">2wheelsandawrench@gmail.com</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-key">Walk-ins</span>
+        <span class="contact-val">Welcome during store hours — no appointment needed for quick fixes</span>
+      </div>
+    </div>
+
+    <div class="hours-grid">
+      <div class="hours-row">
+        <span>Monday – Friday</span>
+        <span>8:00 AM – 6:00 PM</span>
+      </div>
+      <div class="hours-row">
+        <span>Saturday</span>
+        <span>9:00 AM – 5:00 PM</span>
+      </div>
+      <div class="hours-row closed">
+        <span>Sunday</span>
+        <span>Closed</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- DESIGNER CREDIT -->
+  <section id="about">
+    <p class="designed-by">Designed by <strong>Seby Asan</strong> · SEG3125 · University of Ottawa</p>
+  </section>
+
+  <script>
+    // Set min date to today
+    const dateInput = document.getElementById('date');
+    if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+
+    function submitBooking() {
+      const name    = document.getElementById('name').value.trim();
+      const email   = document.getElementById('email').value.trim();
+      const service = document.getElementById('service').value;
+      const date    = document.getElementById('date').value;
+      const time    = document.getElementById('time').value;
+      const msg     = document.getElementById('confirmMsg');
+
+      if (!name || !email || !service || !date || !time) {
+        msg.style.display = 'block';
+        msg.className = 'confirm-msg error';
+        msg.textContent = 'Please fill in all required fields before confirming.';
+        return;
+      }
+
+      const d = new Date(date + 'T00:00:00');
+      const formatted = d.toLocaleDateString('en-CA', {
+        weekday: 'long', month: 'long', day: 'numeric'
+      });
+
+      msg.style.display = 'block';
+      msg.className = 'confirm-msg';
+      msg.innerHTML = `Appointment request confirmed — <strong>${service}</strong> on <strong>${formatted}</strong> at <strong>${time}</strong>. Confirming by email shortly.`;
+
+      ['name','email','service','date','time','notes'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+    }
+  </script>
+
+</body>
+</html>
